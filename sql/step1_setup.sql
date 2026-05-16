@@ -1,0 +1,132 @@
+
+/* ============================================================
+   STEP 1: SETUP DATABASE, SCHEMA, TABLES & SAMPLE DATA
+   Project: Insurance Snowflake ETL
+   ============================================================ */
+
+-- 1) Create Database & Schema
+CREATE OR REPLACE DATABASE INSURANCE_DB;
+USE DATABASE INSURANCE_DB;
+
+CREATE OR REPLACE SCHEMA INSURANCE_SCHEMA;
+USE SCHEMA INSURANCE_SCHEMA;
+
+
+/* ============================================================
+   2) CUSTOMER TABLE
+   ============================================================ */
+CREATE OR REPLACE TABLE CUSTOMER (
+    CUSTOMER_ID STRING PRIMARY KEY,
+    INSURED_FIRST_NAME STRING,
+    INSURED_MID_NAME STRING,
+    INSURED_LAST_NAME STRING,
+    RESIDENCE_STATE STRING,
+    COUNTY STRING,
+    ZIP_CODE STRING,
+    CITY STRING,
+    RESIDENCE_DESCRIPTION STRING,
+    RESIDENCE_NUMBER STRING,
+    FIRE_HYDRANT STRING,
+    PRIORITY_CODE STRING,
+    ZONE_CODE STRING,
+    OPT_OUT_INDICATOR STRING,
+    SEGMENTATION STRING,
+    STATUS STRING
+);
+
+INSERT INTO CUSTOMER (
+    CUSTOMER_ID, INSURED_FIRST_NAME, INSURED_MID_NAME, INSURED_LAST_NAME,
+    RESIDENCE_STATE, COUNTY, ZIP_CODE, CITY, RESIDENCE_DESCRIPTION,
+    RESIDENCE_NUMBER, FIRE_HYDRANT, PRIORITY_CODE, ZONE_CODE, OPT_OUT_INDICATOR,
+    SEGMENTATION, STATUS
+) VALUES
+('CUST001','John','A','Doe','CA','Los Angeles','90001','Los Angeles','Single Family','101','Yes','P1','Z1','N','SC','El'),
+('CUST002','Mary','B','Smith','TX','Harris','77001','Houston','Apartment','202','No','P2','Z2','Y','VP','En'),
+('CUST003','Robert','C','Johnson','NY','Kings','11201','Brooklyn','Condo','303','Yes','P1','Z3','N','VP','El'),
+('CUST004','Linda','D','Williams','FL','Miami-Dade','33101','Miami','Townhouse','404','No','P3','Z1','N','SC','En'),
+('CUST005','Michael','E','Brown','IL','Cook','60601','Chicago','Single Family','505','Yes','P2','Z2','Y','VP','El');
+
+
+/* ============================================================
+   3) POLICY TABLE
+   ============================================================ */
+CREATE OR REPLACE TABLE POLICY (
+    POLICY_NUMBER STRING,
+    CUSTOMER_ID STRING REFERENCES CUSTOMER(CUSTOMER_ID),
+    POLICY_INCEPTION_DATE DATE,
+    COVERAGE_RANGE STRING,
+    SIG_STATUS STRING,
+    PRODUCING_BRANCH STRING,
+    PRODUCER STRING,
+    PRODUCER_PHONE STRING
+);
+
+INSERT INTO POLICY (
+    POLICY_NUMBER, CUSTOMER_ID, POLICY_INCEPTION_DATE, COVERAGE_RANGE,
+    SIG_STATUS, PRODUCING_BRANCH, PRODUCER, PRODUCER_PHONE
+) VALUES
+(1,'CUST001','2023-01-01','100000-500000','Active','Branch01','Alice Green','555-1010'),
+(2,'CUST002','2023-03-15','50000-200000','Active','Branch02','Bob White','555-2020'),
+(3,'CUST003','2023-06-10','200000-600000','Active','Branch01','Charlie Black','555-3030'),
+(4,'CUST004','2023-02-20','100000-400000','Active','Branch03','Diana Blue','555-4040'),
+(5,'CUST005','2023-05-05','150000-550000','Active','Branch02','Evan Gray','555-5050');
+
+
+/* ============================================================
+   4) COVERAGE TABLE
+   ============================================================ */
+CREATE OR REPLACE TABLE COVERAGE (
+    COVERAGE_ID STRING,
+    POLICY_NUMBER STRING REFERENCES POLICY(POLICY_NUMBER),
+    COVERAGE_TYPE STRING,
+    COVERAGE_AMOUNT NUMBER,
+    EFFECTIVE_DT DATE,
+    EXPIRATION_DT DATE
+);
+
+INSERT INTO COVERAGE (
+    COVERAGE_ID, POLICY_NUMBER, COVERAGE_TYPE, COVERAGE_AMOUNT, EFFECTIVE_DT, EXPIRATION_DT
+) VALUES
+('COV001','POL001','Fire',300000,'2023-01-01','2024-01-01'),
+('COV002','POL002','Flood',150000,'2023-03-15','2024-03-15'),
+('COV003','POL003','Earthquake',400000,'2023-06-10','2024-06-10'),
+('COV004','POL004','Fire',200000,'2023-02-20','2024-02-20'),
+('COV005','POL005','Fire',350000,'2023-05-05','2024-05-05');
+
+
+/* ============================================================
+   5) CLAIMS TABLE
+   ============================================================ */
+CREATE OR REPLACE TABLE CLAIMS (
+    CLAIM_ID STRING,
+    POLICY_NUMBER STRING REFERENCES POLICY(POLICY_NUMBER),
+    WILDFIRE_DATE DATE,
+    CLAIM_AMOUNT NUMBER,
+    CRT_UID_C STRING,
+    SUB_AGT_N STRING,
+    PROD_TY_C STRING,
+    RPT_D DATE
+);
+
+INSERT INTO CLAIMS (
+    CLAIM_ID, POLICY_NUMBER, WILDFIRE_DATE, CLAIM_AMOUNT, CRT_UID_C, SUB_AGT_N, PROD_TY_C, RPT_D
+) VALUES
+('CL001','POL001','2023-07-15',50000,'SYS1','00000','M','2023-07-16'),
+('CL002','POL002','2023-08-20',30000,'SYS2','99999','M','2023-08-21'),
+('CL003','POL003','2023-09-10',70000,'WEB','12345','M','2023-09-11'),
+('CL004','POL004','2023-06-05',20000,'SYS4','00000','M','2023-06-06'),
+('CL005','POL005','2023-07-25',40000,'SYS5','99999','M','2023-07-26');
+
+
+/* ============================================================
+   6) VALIDATION QUERIES
+   ============================================================ */
+SELECT COUNT(*) AS CUSTOMER_COUNT FROM CUSTOMER;
+SELECT COUNT(*) AS POLICY_COUNT   FROM POLICY;
+SELECT COUNT(*) AS COVERAGE_COUNT FROM COVERAGE;
+SELECT COUNT(*) AS CLAIMS_COUNT   FROM CLAIMS;
+
+SELECT * FROM CUSTOMER;
+SELECT * FROM POLICY;
+SELECT * FROM COVERAGE;
+SELECT * FROM CLAIMS;
