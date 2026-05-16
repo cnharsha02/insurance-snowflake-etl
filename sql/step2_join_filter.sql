@@ -4,7 +4,7 @@
    Purpose: Combine source tables and apply business filters
    ============================================================ */
 
--- ✅ Ensure correct context
+--  Ensure correct context
 USE DATABASE INSURANCE_DB;
 USE SCHEMA INSURANCE_SCHEMA;
 
@@ -51,7 +51,7 @@ JOIN POLICY P
 JOIN CLAIMS CL
   ON P.POLICY_NUMBER = CL.POLICY_NUMBER
 
--- ✅ Business Filters (from STM document)
+-- Business Filters (from STM document)
 WHERE CL.CRT_UID_C <> 'WEB'
   AND CL.SUB_AGT_N IN ('00000','99999')
   AND CL.PROD_TY_C = 'M';
@@ -61,7 +61,7 @@ WHERE CL.CRT_UID_C <> 'WEB'
 -- STEP 2.3: VALIDATION CHECKS
 ---------------------------------------------------------------
 
--- ✅ Check total records after filtering
+-- Check total records after filtering
 SELECT COUNT(*) AS FILTERED_RECORD_COUNT
 FROM CUSTOMER C
 JOIN POLICY P
@@ -73,7 +73,7 @@ WHERE CL.CRT_UID_C <> 'WEB'
   AND CL.PROD_TY_C = 'M';
 
 
--- ✅ View filtered data
+-- View filtered data
 SELECT *
 FROM CUSTOMER C
 JOIN POLICY P
