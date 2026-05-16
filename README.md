@@ -170,9 +170,10 @@ DW_INSURANCE.POSITIONS
 - Source-to-Target Mapping (STM) Document: [Insurance_STM_Document.xlsx](docs/Insurance_STM_Document.xlsx)
 
 
-## 👨‍💻 Author
-
-**Harsha C N**  
-Data Engineer  
-Bangalore, India
+## 👤 Author
+**Harsha C N**
+- 💼 Data Engineer | 3 Years Experience
+- 🛠️ Snowflake | DBT | AWS | SQL | Python | Informatica
+- 📍 Bangalore, India
+- 🔗 https://github.com/cnharsha02
 
