@@ -164,6 +164,15 @@ DW_INSURANCE.POSITIONS
 
 ---
 
+
+## 📄 Documentation
+
+- Source-to-Target Mapping (STM) Document: [Insurance_STM_Document.xlsx](docs/Insurance_STM_Document.xlsx)
+- SQL Source File: [policy tables.sql](docs/policy_tables.sql)
+
+
+
+
 ## 👨‍💻 Author
 
 **Harsha C N**  
