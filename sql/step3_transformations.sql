@@ -5,7 +5,7 @@
    Source: Policy STM document
    ============================================================ */
 
--- ✅ Ensure correct context
+--  Ensure correct context
 USE DATABASE INSURANCE_DB;
 USE SCHEMA INSURANCE_SCHEMA;
 
